@@ -65,7 +65,7 @@ document.addEventListener("keydown", (e) => {
 //funciton
 function displayTasks() {
   listBody.innerHTML = "";
-  
+
   if (taskStorage) {
     taskStorage.forEach((e) => {
       createNewTask(e);
@@ -81,6 +81,34 @@ function addTaskAct() {
     task.value = "";
   }
 }
+listBody.addEventListener("click", (e) => {
+  console.log("target", e.target);
+  const trigger = e.target.closest("button.removeTask");
+
+  console.log("target", e.target);
+  if (trigger) {
+    const li = e.target.closest("li");
+    const id = Number(li.id);
+    console.log(li);
+    taskStorage = taskStorage.filter((task) => task.id !== id);
+    console.log(taskStorage);
+  }
+  const secondTrigger = e.target.closest("input.taskChecker");
+  console.log("target", e.target);
+  if (secondTrigger) {
+    const li = e.target.closest("li");
+    const id = Number(li.id);
+    li.classList.toggle("done"); //use Li right here instead of newTask because newTask is the last <li> that has been created, not the li that has been triggered
+    console.log("go into here first");
+    taskStorage.forEach((e) => {
+      console.log("go into here");
+      if (e.id === id) {
+        e.checked = e.checked === false ? true : false;
+      }
+    });
+  }
+  displayTasks();
+});
 function createNewTask(item) {
   let newTask = document.createElement("li");
   newTask.classList.add("tasks");
@@ -91,34 +119,16 @@ function createNewTask(item) {
   taskBtn.classList.add("taskBtn");
   let taskChecker = document.createElement("input");
   taskChecker.type = "checkbox";
-  taskChecker.classList.add("checker");
-  taskChecker.addEventListener("click", (e) => {
-    newTask.classList.toggle("done");
-    const li = e.target.closest("li");
-    const id = Number(li.id);
-    taskStorage.forEach((e) => {
-      if (e.id === id) {
-        e.checked = e.checked === false ? true : false;
-      }
-    });
-  });
+  taskChecker.classList.add("checker", "taskChecker");
   if (item.checked === true) {
     taskChecker.checked = true;
     newTask.classList.add("done");
   }
 
   let removeTask = document.createElement("button");
-  removeTask.classList.add("icon", "btn");
+  removeTask.classList.add("icon", "btn", "removeTask");
   removeTask.innerHTML = `<i class="fa-solid fa-x"></i>`;
 
-  removeTask.addEventListener("click", (e) => {
-    const li = e.target.closest("li");
-    console.log(li);
-    const id = Number(li.id);
-    taskStorage = taskStorage.filter((task) => task.id !== id);
-    console.log(taskStorage);
-    displayTasks();
-  });
   taskBtn.append(taskChecker, removeTask);
   newTask.append(taskBtn);
   listBody.append(newTask);
