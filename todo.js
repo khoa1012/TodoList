@@ -23,7 +23,24 @@ app.append(taskInput);
 addTask.classList.add("btn");
 search.classList.add("btn", "searchBtn");
 //searching
+const searchInput = document.createElement("input");
+searchInput.setAttribute("type", "text");
+searchInput.setAttribute("placeholder", "Type here to search");
+searchInput.classList.add("inputText", "searchInput");
+app.append(searchInput);
 
+searchInput.addEventListener("input", (e) => {
+  const find = e.target.value.toLowerCase();
+  if (e.target.value === "") {
+    displayTasks(taskStorage);
+  } else {
+    let newTaskStorage = taskStorage.filter((item) => 
+      item.value.toLowerCase().includes(find)
+    );
+    
+    displayTasks(newTaskStorage);
+  }
+});
 //list body
 const listBody = document.createElement("ul");
 listBody.setAttribute("id", "listBody");
@@ -60,19 +77,19 @@ loadTasks.addEventListener("click", () => {
   taskStorage = JSON.parse(localStorage.getItem("todo"));
 
   listBody.innerHTML = "";
-  displayTasks();
+  displayTasks(taskStorage);
 });
-document.addEventListener("keydown", (e) => {
+task.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
     addTaskAct();
   }
 });
 //funciton
-function displayTasks() {
+function displayTasks(Storage) {
   listBody.innerHTML = "";
 
-  if (taskStorage) {
-    taskStorage.forEach((e) => {
+  if (Storage) {
+    Storage.forEach((e) => {
       createNewTask(e);
     });
   }
@@ -82,7 +99,7 @@ function addTaskAct() {
   if (task.value !== "") {
     taskStorage.push({ id: idCount, value: task.value, checked: false });
     idCount++;
-    displayTasks();
+    displayTasks(taskStorage);
     task.value = "";
   }
 }
@@ -112,7 +129,7 @@ listBody.addEventListener("click", (e) => {
       }
     });
   }
-  displayTasks();
+  displayTasks(taskStorage);
 });
 function createNewTask(item) {
   const newTask = document.createElement("li");
