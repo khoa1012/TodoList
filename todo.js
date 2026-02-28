@@ -1,35 +1,40 @@
-let app = document.getElementById("app");
+const app = document.getElementById("app");
 app.classList.add("appWrap");
 console.log(app);
 //title
-let title = document.createElement("h1");
+const title = document.createElement("h1");
 title.classList.add("title");
 title.textContent = "WELCOME TO THIS TODOLIST";
 
 app.append(title);
 //task input
-let taskInput = document.createElement("div");
+const taskInput = document.createElement("div");
 taskInput.setAttribute("id", "taskInput");
 let idCount = 1;
-let task = document.createElement("input");
+const task = document.createElement("input");
 task.setAttribute("type", "text");
 task.setAttribute("id", "task");
-let addTask = document.createElement("button");
+const addTask = document.createElement("button");
 addTask.textContent = "Add";
-taskInput.append(task, addTask);
+const search = document.createElement("button");
+search.textContent = "Search";
+taskInput.append(task, addTask, search);
 app.append(taskInput);
 addTask.classList.add("btn");
+search.classList.add("btn", "searchBtn");
+//searching
+
 //list body
-let listBody = document.createElement("ul");
+const listBody = document.createElement("ul");
 listBody.setAttribute("id", "listBody");
 app.append(listBody);
 //list of btn
-let listBtn = document.createElement("div");
+const listBtn = document.createElement("div");
 listBtn.setAttribute("id", "listBtn");
 
-let resetTasks = document.createElement("button");
-let saveTasks = document.createElement("button");
-let loadTasks = document.createElement("button");
+const resetTasks = document.createElement("button");
+const saveTasks = document.createElement("button");
+const loadTasks = document.createElement("button");
 let taskStorage = [];
 resetTasks.textContent = "Reset";
 saveTasks.textContent = "Save";
@@ -110,14 +115,14 @@ listBody.addEventListener("click", (e) => {
   displayTasks();
 });
 function createNewTask(item) {
-  let newTask = document.createElement("li");
+  const newTask = document.createElement("li");
   newTask.classList.add("tasks");
   newTask.textContent = `${item.value}`;
   newTask.setAttribute("id", item.id);
 
-  let taskBtn = document.createElement("div");
+  const taskBtn = document.createElement("div");
   taskBtn.classList.add("taskBtn");
-  let taskChecker = document.createElement("input");
+  const taskChecker = document.createElement("input");
   taskChecker.type = "checkbox";
   taskChecker.classList.add("checker", "taskChecker");
   if (item.checked === true) {
@@ -125,7 +130,7 @@ function createNewTask(item) {
     newTask.classList.add("done");
   }
 
-  let removeTask = document.createElement("button");
+  const removeTask = document.createElement("button");
   removeTask.classList.add("icon", "btn", "removeTask");
   removeTask.innerHTML = `<i class="fa-solid fa-x"></i>`;
 
