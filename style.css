@@ -31,7 +31,7 @@
 
 }
 
-#task{
+#task,.inputText{
     padding: 10px;
     width: 30vw;
     border-radius: 2px;
@@ -39,6 +39,10 @@
     border: none;
     background-color: rgb(240, 239, 234);
     margin-right: 5px;
+}
+.searchInput{
+    width: 40vw;
+    margin-top: 20px;
 }
 #task:focus{
     outline: none;
