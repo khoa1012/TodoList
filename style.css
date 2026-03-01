@@ -1,4 +1,7 @@
 
+body {
+  font-family: 'Montserrat', sans-serif;
+}
 .appWrap{
     background-color: rgb(206, 165, 105);
     height: 100vh;
