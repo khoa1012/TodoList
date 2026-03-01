@@ -79,6 +79,7 @@ loadTasks.addEventListener("click", () => {
 
   listBody.innerHTML = "";
   displayTasks(taskStorage);
+
 });
 task.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
@@ -86,11 +87,11 @@ task.addEventListener("keydown", (e) => {
   }
 });
 //funciton
-function displayTasks(Storage) {
+function displayTasks(storage) {
   listBody.innerHTML = "";
 
-  if (Storage) {
-    Storage.forEach((e) => {
+  if (storage) {
+    storage.forEach((e) => {
       createNewTask(e);
     });
   }
@@ -115,6 +116,7 @@ listBody.addEventListener("click", (e) => {
     console.log(li);
     taskStorage = taskStorage.filter((task) => task.id !== id);
     console.log(taskStorage);
+    li.remove();
   }
   const secondTrigger = e.target.closest("input.taskChecker");
   console.log("target", e.target);
@@ -130,7 +132,7 @@ listBody.addEventListener("click", (e) => {
       }
     });
   }
-  displayTasks(taskStorage);
+  
 });
 function createNewTask(item) {
   const newTask = document.createElement("li");
