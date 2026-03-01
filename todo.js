@@ -14,14 +14,15 @@ let idCount = 1;
 const task = document.createElement("input");
 task.setAttribute("type", "text");
 task.setAttribute("id", "task");
+task.setAttribute("placeholder","Click Add or press Enter")
 const addTask = document.createElement("button");
 addTask.textContent = "Add";
-const search = document.createElement("button");
-search.textContent = "Search";
-taskInput.append(task, addTask, search);
+//const search = document.createElement("button");
+//search.textContent = "Search";
+taskInput.append(task, addTask);
 app.append(taskInput);
 addTask.classList.add("btn");
-search.classList.add("btn", "searchBtn");
+//search.classList.add("btn", "searchBtn");
 //searching
 const searchInput = document.createElement("input");
 searchInput.setAttribute("type", "text");
