@@ -14,7 +14,7 @@ let idCount = 1;
 const task = document.createElement("input");
 task.setAttribute("type", "text");
 task.setAttribute("id", "task");
-task.setAttribute("placeholder","Click Add or press Enter")
+task.setAttribute("placeholder", "Click Add or press Enter");
 const addTask = document.createElement("button");
 addTask.textContent = "Add";
 //const search = document.createElement("button");
@@ -35,10 +35,10 @@ searchInput.addEventListener("input", (e) => {
   if (e.target.value === "") {
     displayTasks(taskStorage);
   } else {
-    let newTaskStorage = taskStorage.filter((item) => 
-      item.value.toLowerCase().includes(find)
+    let newTaskStorage = taskStorage.filter((item) =>
+      item.value.toLowerCase().includes(find),
     );
-    
+
     displayTasks(newTaskStorage);
   }
 });
@@ -46,6 +46,26 @@ searchInput.addEventListener("input", (e) => {
 const listBody = document.createElement("ul");
 listBody.setAttribute("id", "listBody");
 app.append(listBody);
+//Pop up
+
+const popup = document.createElement("div");
+popup.classList.add("popup");
+
+const popupInput = document.createElement("input");
+const popupBtnlist = document.createElement("div");
+const popupCancel = document.createElement("button");
+const popupDone = document.createElement("button");
+
+popupInput.classList.add("inputText", "popupInput");
+popupInput.setAttribute("placeholder", "Edit task here");
+popupCancel.textContent = "Cancel";
+popupDone.textContent = "Done";
+popupCancel.classList.add("btn");
+popupDone.classList.add("btn");
+popupBtnlist.classList.add("popupBtn");
+popupBtnlist.append(popupCancel, popupDone);
+popup.append(popupInput, popupBtnlist);
+app.append(popup);
 //list of btn
 const listBtn = document.createElement("div");
 listBtn.setAttribute("id", "listBtn");
@@ -79,13 +99,13 @@ loadTasks.addEventListener("click", () => {
 
   listBody.innerHTML = "";
   displayTasks(taskStorage);
-
 });
 task.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
     addTaskAct();
   }
 });
+
 //funciton
 function displayTasks(storage) {
   listBody.innerHTML = "";
@@ -132,12 +152,36 @@ listBody.addEventListener("click", (e) => {
       }
     });
   }
-  
+});
+let triggerPopup = null;
+listBody.addEventListener("dblclick", (e) => {
+  const li = e.target.closest("li");
+  if (!li) return;
+  triggerPopup = li;
+  popup.classList.add("showPopup");
+  console.log(triggerPopup.textContent);
+  popupInput.value = triggerPopup.querySelector(".taskText").textContent;
+  popupInput.focus();
+});
+popupDone.addEventListener("click", () => {
+  triggerPopup.querySelector(".taskText").textContent = popupInput.value;
+  const id = Number(triggerPopup.id);
+  const targetTask = taskStorage.find((e) => e.id === id);
+  console.log(targetTask);
+  targetTask.value = popupInput.value;
+  popup.classList.remove("showPopup");
+  triggerPopup = null;
+});
+popupCancel.addEventListener("click", () => {
+  popup.classList.remove("showPopup");
+  triggerPopup = null;
 });
 function createNewTask(item) {
   const newTask = document.createElement("li");
   newTask.classList.add("tasks");
-  newTask.textContent = `${item.value}`;
+  const taskText = document.createElement("span");
+  taskText.classList.add("taskText");
+  taskText.textContent = `${item.value}`;
   newTask.setAttribute("id", item.id);
 
   const taskBtn = document.createElement("div");
@@ -155,6 +199,6 @@ function createNewTask(item) {
   removeTask.innerHTML = `<i class="fa-solid fa-x"></i>`;
 
   taskBtn.append(taskChecker, removeTask);
-  newTask.append(taskBtn);
+  newTask.append(taskText, taskBtn);
   listBody.append(newTask);
 }
